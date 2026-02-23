@@ -1,0 +1,47 @@
+﻿@model ToDo.Domain.VMs.CreateOrUpdateVM
+
+@{
+    ViewData["Title"] = "Create Or Update";
+}
+
+<div class="container mt-4">
+    <h3 class="mb-3 w-100 text-center">
+        @(Model?.Id == null ? "افزودن آیتم جدید" : "ویرایش آیتم")
+    </h3>
+
+    <form asp-controller="Home"
+          asp-action="CreateOrUpdate"
+          method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"> عنوان :</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-2 @(Model?.Id == null ? "hidden" : "")">
+            <input asp-for="IsActive" class="form-check-input" ) />
+            <label asp-for="IsActive" class="form-check-label"> فعال :</label>
+        </div>
+
+        <div class="form-check mb-2 @(Model?.Id == null ? "hidden" : "")">
+            <input asp-for="IsComplete" class="form-check-input" />
+            <label asp-for="IsComplete" class="form-check-label"> کامل شده :</label>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+        <button type="submit" class="btn btn-success mx-1">
+            ذخیره
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            بازگشت
+        </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

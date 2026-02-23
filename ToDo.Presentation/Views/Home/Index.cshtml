@@ -5,10 +5,10 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Tasks</h1>
+    <h3 class="my-1">لیست کارها</h3>
 </div>
 <div class="w-100">
-    <div class="btn btn-success btn-sm my-2 shadow">افزودن</div>
+    <a class="btn btn-success btn-sm my-2 shadow" asp-controller="Home" asp-action="CreateOrUpdate" >افزودن</a>
     <div class="mx-auto">
         <table class="table text-center table-striped table-bordered table-hover">
             <thead>
@@ -24,12 +24,12 @@
                 {
                     <tr>
                         <td>@i.Name</td>
-                        <td>@i.IsActive</td>
-                        <td>@i.IsComplete</td>
+                        <td>@(i.IsActive ? "فعال" : "غیر فعال")</td>
+                        <td>@(i.IsComplete ? "تکمیل" : "تکمیل نشده")</td>
                         <td>
                             <div>
-                                <div class="btn btn-warning">ویرایش</div>
-                                <div class="btn btn-danger">حذف</div>
+                                <a class="btn btn-warning" asp-controller="Home" asp-action="CreateOrUpdate" asp-route-id="@i.Id">ویرایش</a>
+                                <a class="btn btn-danger @(i.IsActive == false ? "hidden" : "")" asp-controller="Home" asp-action="Delete" asp-route-id="@i.Id">حذف</a>
                             </div>
                         </td>
                     </tr>

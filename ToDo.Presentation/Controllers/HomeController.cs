@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces;
+using ToDo.Domain.VMs;
 using ToDo.Presentation;
 
 namespace ToDo.Presentation.Controllers
@@ -15,21 +18,69 @@ namespace ToDo.Presentation.Controllers
         }
         #endregion
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var items =await _itemRepository.GetItemsAsync();
+            var items = await _itemRepository.GetItemsAsync();
             return View(items);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> CreateOrUpdateAsync(int? Id)
         {
-            return View();
+            CreateOrUpdateVM? item = new();
+            if (Id != null || Id != 0)
+                item =await _itemRepository.GetItemByIdForUpdateAsync(Id);
+
+            return View(item);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View();
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrUpdateAsync(CreateOrUpdateVM model)
+        { 
+            try
+            {
+                bool result = await _itemRepository.CreateOrUpdateAsync(model);
+
+                if (result)
+                {
+                    await _itemRepository.SaveChangesAsync();
+                    return Redirect("/");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                while (ex != null)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+
+            }
+
+            return View(model);
         }
+
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                bool result = await _itemRepository.DeleteAsync(id);
+
+                if (result)
+                    await _itemRepository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                while (ex != null)
+                {
+                    Console.WriteLine(ex.Message.ToString());
+                }
+
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
