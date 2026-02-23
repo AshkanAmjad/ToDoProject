@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Data/">
+    <Project Path="ToDo.Data/ToDo.Data.csproj" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="ToDo.Domain/ToDo.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Presention/">
+    <Project Path="ToDo.Presentation/ToDo.Presentation.csproj" />
+  </Folder>
+</Solution>

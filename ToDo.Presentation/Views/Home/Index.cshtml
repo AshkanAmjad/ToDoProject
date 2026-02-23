@@ -1,0 +1,41 @@
+﻿@using ToDo.Domain.Dtos
+@model List<GetItemsVM>
+@{
+    ViewData["Title"] = "Tasks Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Tasks</h1>
+</div>
+<div class="w-100">
+    <div class="btn btn-success btn-sm my-2 shadow">افزودن</div>
+    <div class="mx-auto">
+        <table class="table text-center table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>وضعیت</th>
+                    <th>وضعیت تکمیل</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var i in Model)
+                {
+                    <tr>
+                        <td>@i.Name</td>
+                        <td>@i.IsActive</td>
+                        <td>@i.IsComplete</td>
+                        <td>
+                            <div>
+                                <div class="btn btn-warning">ویرایش</div>
+                                <div class="btn btn-danger">حذف</div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
