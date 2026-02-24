@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ToDo.Application.DTOs;
+using ToDo.Application.Interfaces;
 using ToDo.Data.Context;
-using ToDo.Domain.Dtos;
 using ToDo.Domain.Entities;
-using ToDo.Domain.Interfaces;
-using ToDo.Domain.VMs;
 
 namespace ToDo.Data.Repositores
 {
@@ -23,9 +19,9 @@ namespace ToDo.Data.Repositores
 
         #endregion
 
-        public async Task<List<GetItemsVM>> GetItemsAsync()
+        public async Task<List<GetItemsDto>> GetItemsAsync()
             => await _context.Items
-                .Select(i => new GetItemsVM
+                .Select(i => new GetItemsDto
                 {
                     Id = i.Id,
                     Name = i.Name,
@@ -50,7 +46,7 @@ namespace ToDo.Data.Repositores
         public async Task SaveChangesAsync()
            => _context.SaveChanges();
 
-        public async Task<bool> CreateOrUpdateAsync(CreateOrUpdateVM model)
+        public async Task<bool> CreateOrUpdateAsync(CreateOrUpdateDto model)
         {
 
 
@@ -96,9 +92,9 @@ namespace ToDo.Data.Repositores
 
         }
 
-        public async Task<CreateOrUpdateVM?> GetItemByIdForUpdateAsync(int? id)
+        public async Task<CreateOrUpdateDto?> GetItemByIdForUpdateAsync(int? id)
          => await _context.Items.Where(itm => itm.Id == id)
-                                  .Select(itm => new CreateOrUpdateVM()
+                                  .Select(itm => new CreateOrUpdateDto()
                                   {
                                       Id = itm.Id,
                                       Name = itm.Name,

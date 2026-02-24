@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Http.Features;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using ToDo.Domain.Entities;
-using ToDo.Domain.Interfaces;
-using ToDo.Domain.VMs;
-using ToDo.Presentation;
+using ToDo.Application.Commands.CreateOrUpdate;
+using ToDo.Application.Commands.Delete;
+using ToDo.Application.DTOs;
+using ToDo.Application.Interfaces;
+using ToDo.Application.Queries.GetAllItems;
+using ToDo.Application.Queries.GetItemById;
 
 namespace ToDo.Presentation.Controllers
 {
@@ -12,39 +13,40 @@ namespace ToDo.Presentation.Controllers
     {
         #region Props
         private readonly IItemRepository _itemRepository;
-        public HomeController(IItemRepository itemRepository)
+        private readonly IMediator _mediator;
+        public HomeController(IItemRepository itemRepository,IMediator mediator)
         {
             _itemRepository = itemRepository;
+            _mediator = mediator;
         }
         #endregion
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var items = await _itemRepository.GetItemsAsync();
+            var items = await _mediator.Send(new GetAllItemsQuery());
             return View(items);
         }
 
-        public async Task<IActionResult> CreateOrUpdateAsync(int? Id)
+        public async Task<IActionResult> CreateOrUpdateAsync(int? id)
         {
-            CreateOrUpdateVM? item = new();
-            if (Id != null || Id != 0)
-                item =await _itemRepository.GetItemByIdForUpdateAsync(Id);
+            CreateOrUpdateDto? item = new();
+            if (id != null || id != 0)
+                item =await _mediator.Send(new GetItemByIdForUpdateQuery(id));
 
             return View(item);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrUpdateAsync(CreateOrUpdateVM model)
+        public async Task<IActionResult> CreateOrUpdateAsync(CreateOrUpdateDto model)
         { 
             try
             {
-                bool result = await _itemRepository.CreateOrUpdateAsync(model);
+                bool result = await _mediator.Send(new CreateOrUpdateCommand(model));
 
                 if (result)
-                {
-                    await _itemRepository.SaveChangesAsync();
+                { 
                     return Redirect("/");
                 }
 
@@ -65,10 +67,7 @@ namespace ToDo.Presentation.Controllers
         {
             try
             {
-                bool result = await _itemRepository.DeleteAsync(id);
-
-                if (result)
-                    await _itemRepository.SaveChangesAsync();
+                bool result =await _mediator.Send(new DeleteCommand(id));
             }
             catch (Exception ex)
             {
@@ -76,7 +75,6 @@ namespace ToDo.Presentation.Controllers
                 {
                     Console.WriteLine(ex.Message.ToString());
                 }
-
             }
 
             return RedirectToAction("Index");

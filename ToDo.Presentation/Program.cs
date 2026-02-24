@@ -1,23 +1,21 @@
-using Microsoft.EntityFrameworkCore;
-using ToDo.Data.Context;
-using ToDo.Data.Repositores;
-using ToDo.Domain.Interfaces;
+using System.Reflection.Metadata;
+using ToDo.Application.Interfaces;
+using ToDo.Application.Queries.GetAllItems;
+using ToDo.Data.Dependency;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-#region DbContext
-builder.Services.AddDbContext<ToDoContext>(opts =>
-opts.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+
+#region Dependency
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
+
 #endregion
 
-#region LifeCycle
-builder.Services.AddScoped<IItemRepository, ItemRepository>();
-#endregion
+
 
 var app = builder.Build();
 

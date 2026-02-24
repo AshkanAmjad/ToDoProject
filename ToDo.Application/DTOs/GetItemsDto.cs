@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ToDo.Domain.Dtos
+namespace ToDo.Application.DTOs
 {
-    public class GetItemsVM
+    public class GetItemsDto
     {
         public int Id {  get; set; }
         public string Name { get; set; }

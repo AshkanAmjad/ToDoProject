@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Application/">
+    <Project Path="ToDo.Application/ToDo.Application.csproj" Id="d22d2002-88bf-4c86-a3a2-18fbe57756a7" />
+  </Folder>
   <Folder Name="/Data/">
     <Project Path="ToDo.Data/ToDo.Data.csproj" />
   </Folder>

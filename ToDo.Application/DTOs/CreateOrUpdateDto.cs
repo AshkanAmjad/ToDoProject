@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ToDo.Domain.VMs
+namespace ToDo.Application.DTOs
 {
-    public class GetItemByIdVM
+    public class CreateOrUpdateDto
     {
-        public int id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public bool IsComplete { get; set; }
