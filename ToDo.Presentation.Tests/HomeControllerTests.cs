@@ -145,6 +145,15 @@ public class HomeControllerTests
             Times.Once);
     }
 
-    
+    [Fact]
+    public async Task CreateOrUpdate_Get_Should_Return_Empty_Model_When_Id_Is_Null()
+    {
+        var result = await _controller.CreateOrUpdateAsync((int?)null);
+
+        var viewResult = result as ViewResult;
+
+        viewResult.Should().NotBeNull();
+        viewResult!.Model.Should().NotBeNull();
+    }
 
 }
