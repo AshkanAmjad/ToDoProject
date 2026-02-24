@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Application/">
+    <Project Path="ToDo.Application.Tests/ToDo.Application.Tests.csproj" Id="2ef5bd06-4301-4df0-b482-8735ee1dcf95" />
     <Project Path="ToDo.Application/ToDo.Application.csproj" Id="d22d2002-88bf-4c86-a3a2-18fbe57756a7" />
   </Folder>
   <Folder Name="/Data/">
@@ -9,6 +10,7 @@
     <Project Path="ToDo.Domain/ToDo.Domain.csproj" />
   </Folder>
   <Folder Name="/Presention/">
+    <Project Path="ToDo.Presentation.Tests/ToDo.Presentation.Tests.csproj" Id="af05642c-300a-439a-8ef0-30d48fa99827" />
     <Project Path="ToDo.Presentation/ToDo.Presentation.csproj" />
   </Folder>
 </Solution>
